@@ -11,12 +11,14 @@ import AccessModal from "./components/access-modal"
 import MasterContentImg from './assets/master-content.jpg'
 import DigitalMarketImg from './assets/digital-market.jpg'
 import BusinesCoachImg from './assets/business-coach.jpg'
+import { Outlet } from "react-router-dom";
 
-export default function App() {
+function App() {
 
 	return (
 		<main className="min-h-screen bg-black">
 		  <Navbar />
+		  <Outlet />
 		  <Hero />
 		  <Categories/>
 		  <Features />
@@ -41,8 +43,11 @@ export default function App() {
 		  <CTASection />
 		  <Footer />
 		  <AccessModal />
+		  
 		</main>
 	  )
 }
+
+export default App;
 
 

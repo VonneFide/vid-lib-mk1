@@ -9,6 +9,8 @@ import CarouselImg3 from '../assets/car-item3.jpg'
 import CarouselImg4 from '../assets/car-item4.jpg'
 import CarouselImg5 from '../assets/car-item5.jpg'
 import CarouselImg6 from '../assets/car-item6.jpg'
+import { Link } from "react-router-dom"
+
 
 const carouselItems = [
   {
@@ -90,13 +92,15 @@ export default function Hero() {
           {carouselItems[currentSlide].subtitle}
         </p>
 
-        <Button className="group relative bg-[#A27B5C] hover:bg-[#A27B5C]/90 text-[#DCD7C9] text-lg px-8 py-6 overflow-hidden transition-all duration-300 transform hover:scale-105">
-          <span className="relative z-10 flex items-center gap-2">
-            Get All Access
-            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </span>
-          <span className="absolute inset-0 bg-[#2C3930] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-        </Button>
+        <Link to="video/home">
+          <Button className="group relative bg-[#A27B5C] hover:bg-[#A27B5C]/90 text-[#DCD7C9] text-lg px-8 py-6 overflow-hidden transition-all duration-300 transform hover:scale-105">
+            <span className="relative z-10 flex items-center gap-2">
+              Get All Access
+              <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </span>
+            <span className="absolute inset-0 bg-[#2C3930] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+          </Button>
+        </Link>
 
         {/* Carousel Controls */}
         <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 flex justify-between z-20">
@@ -120,17 +124,17 @@ export default function Hero() {
   <p className="text-[#DCD7C9] mb-2 text-center">Trusted by professionals from</p>
 
   {/* Marquee Container */}
-  <div className="relative flex items-center overflow-hidden">
+  <div className="relative mt-5 flex items-center overflow-hidden">
     {/* Left & Right Fade Effect */}
     <motion.div
-      className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-[#A27B5C] to-transparent pointer-events-none"
+      className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-[#DCD7C9] to-transparent pointer-events-none"
       initial={{ opacity: 0.8 }}
       animate={{ opacity: [0.8, 0.5, 0.8] }}
       transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
     ></motion.div>
     
     <motion.div
-      className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[#A27B5C] to-transparent pointer-events-none"
+      className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[#DCD7C9] to-transparent pointer-events-none"
       initial={{ opacity: 0.8 }}
       animate={{ opacity: [0.8, 0.5, 0.8] }}
       transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
@@ -145,7 +149,7 @@ export default function Hero() {
       {[...companies, ...companies].map((company, index) => (
         <span
           key={index}
-          className="text-[#A27B5C] text-xl font-semibold hover:text-[#DCD7C9] transition-colors"
+          className="text-[#DCD7C9] text-xl font-semibold hover:text-[#A27B5C] transition-colors"
         >
           {company}
         </span>
@@ -159,7 +163,7 @@ export default function Hero() {
       {["",...companies, ...companies].map((company, index) => (
         <span
           key={index}
-          className="text-[#A27B5C] text-xl font-semibold hover:text-[#DCD7C9] transition-colors"
+          className="text-[#DCD7C9] text-xl font-semibold hover:text-[#A27B5C] transition-colors"
         >
           {company}
         </span>

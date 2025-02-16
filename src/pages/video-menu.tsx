@@ -4,7 +4,7 @@ import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import VideoCard from "../components/video-card"
 import Footer from "../components/footer"
-import { allVideos, popularVideos, categories, yourVideos, favoriteVideos, watchLaterVideos } from "@/lib/data"
+import { allVideos, popularVideos, categories, yourVideos, favoriteVideos, watchLaterVideos } from "../lib/data"
 
 const sections = ["home", "popular", "categories", "your-videos", "favorites", "watch-later"]
 

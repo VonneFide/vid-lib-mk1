@@ -72,7 +72,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[#DCD7C9]/20 pt-4 text-center">
-          <p className="text-xs text-[#DCD7C9]/60">&copy; {new Date().getFullYear()} VideoLib. All rights reserved.</p>
+          <p className="text-xs text-[#DCD7C9]/60">&copy; {new Date().getFullYear()} VideoLib. All rights reserved by @VonneFide.</p>
         </div>
       </div>
     </footer>
