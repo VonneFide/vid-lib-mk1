@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react"
-import { Search, ChevronDown, MessageSquare, UserPlus, ArrowUp } from "lucide-react"
+import { Search, ChevronDown, MessageSquare, UserPlus, ArrowUp, X, Menu } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import MegaMenu from "./mega-menu"
 import ContactModal from "./contact-modal"
 import AuthModal from "./auth-modal"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true)
@@ -13,6 +14,7 @@ export default function Navbar() {
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [openMenu, setOpenMenu] = useState<string | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   let hideTimeout: NodeJS.Timeout
 
   useEffect(() => {
@@ -36,6 +38,10 @@ export default function Navbar() {
     hideTimeout = setTimeout(() => setOpenMenu(null), 200) // Add delay before hiding
   }
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((prev) => !prev)
+  }
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
@@ -53,7 +59,7 @@ export default function Navbar() {
               <a href="/" className="text-[#DCD7C9] text-xl font-bold">
                 VideoLib
               </a>
-              <div className="relative flex-grow hidden md:block">
+              <div className="relative flex-grow hidden lg:block">
                 <Input
                   type="search"
                   placeholder="Search courses..."
@@ -78,6 +84,7 @@ export default function Navbar() {
                     {menu} <ChevronDown className="ml-1 w-4 h-4" />
                   </a>
 
+                <AnimatePresence>
                   {openMenu === menu && (
                     <MegaMenu
                       title={menu}
@@ -104,6 +111,7 @@ export default function Navbar() {
                       }
                     />
                   )}
+                  </AnimatePresence>
                 </div>
               ))}
 
@@ -122,8 +130,63 @@ export default function Navbar() {
                 <UserPlus className="mr-2 h-4 w-4" /> Get Started
               </Button>
             </div>
+
+            {/* Mobile Menu Toggle */}
+            <button className="lg:hidden text-[#DCD7C9]" onClick={toggleMobileMenu}>
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : 
+                <Menu className="w-6 h-6" 
+                />}
+            </button>
           </div>
         </div>
+
+        {mobileMenuOpen && (
+  <motion.div
+    initial={{ height: 0, opacity: 0 }}
+    animate={{ height: "100%", opacity: 1 }}
+    exit={{ height: 0, opacity: 0 }}
+    transition={{ duration: 0.3, ease: "easeInOut" }}
+    className="lg:hidden bg-[#3F4F44] shadow-lg overflow-hidden"
+  >
+    <AnimatePresence> 
+      <div className="p-4 space-y-4">
+        {["Sessions", "Courses", "Discounts"].map((menu) => (
+          <div key={menu}>
+            <button
+              onClick={() => setOpenMenu(openMenu === menu ? null : menu)}
+              className="flex justify-between items-center w-full text-[#DCD7C9] hover:text-[#A27B5C] transition-colors"
+            >
+              {menu} <ChevronDown className="ml-1 w-4 h-4" />
+            </button>
+
+            {/* Mobile Mega Menu Accordion */}
+            <AnimatePresence>
+              {openMenu === menu && (
+                <motion.div
+                  initial={{ maxHeight: 0, opacity: 0 }}
+                  animate={{ maxHeight: 300, opacity: 1 }} // maxHeight instead of "auto"
+                  exit={{ maxHeight: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="ml-4 mt-2 text-[#DCD7C9] overflow-hidden"
+                >
+                  {(
+                    menu === "Sessions"
+                      ? ["Live Workshops", "Webinars", "Q&A Sessions"]
+                      : menu === "Courses"
+                      ? ["Video Production", "Audio", "Business"]
+                      : ["Special Offers", "Student Discounts", "Group Rates"]
+                  ).map((item) => (
+                    <p key={item} className="py-1">{item}</p>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
+        </div>
+      </AnimatePresence>
+      </motion.div>
+      )}
       </nav>
 
       {/* Scroll-to-Top Button */}
@@ -138,6 +201,7 @@ export default function Navbar() {
 
       <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+
     </>
   )
 }
