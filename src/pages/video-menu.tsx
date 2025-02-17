@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Search, Home, TrendingUp, Grid, PlayCircle, Heart, Clock, Plus } from "lucide-react"
+import { Search, Home, TrendingUp, Grid, PlayCircle, Heart, Clock, Plus, Menu } from "lucide-react"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import VideoCard from "../components/video-card"
@@ -10,10 +10,11 @@ const sections = ["home", "popular", "categories", "your-videos", "favorites", "
 
 export default function VideoLibrary() {
   const [selectedCategory, setSelectedCategory] = useState("All")
-  const [sortBy, ] = useState("date")
-  const [sortOrder, ] = useState("desc")
+  const [sortBy] = useState("date")
+  const [sortOrder] = useState("desc")
   const [searchQuery, setSearchQuery] = useState("")
   const [currentSection, setCurrentSection] = useState("home")
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const getCurrentVideos = () => {
     switch (currentSection) {
@@ -68,7 +69,9 @@ export default function VideoLibrary() {
   return (
     <div className="min-h-screen bg-[#2C3930] flex">
       {/* Sidebar */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-[#3F4F44] text-[#DCD7C9] p-6 overflow-y-auto">
+      <aside
+        className={`fixed left-0 top-0 h-full w-64 bg-[#3F4F44] text-[#DCD7C9] p-6 overflow-y-auto transition-transform duration-300 ease-in-out transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 z-30`}
+      >
         <div className="space-y-6">
           <h2 className="text-xl font-bold mb-6">VideoLib</h2>
 
@@ -78,7 +81,10 @@ export default function VideoLibrary() {
                 key={section}
                 variant="ghost"
                 className={`w-full justify-start ${currentSection === section ? "bg-[#2C3930] text-[#A27B5C]" : "text-[#DCD7C9]"} hover:text-[#A27B5C] hover:bg-[#2C3930]`}
-                onClick={() => setCurrentSection(section)}
+                onClick={() => {
+                  setCurrentSection(section)
+                  setIsSidebarOpen(false)
+                }}
               >
                 {section === "home" && <Home className="mr-2 h-4 w-4" />}
                 {section === "popular" && <TrendingUp className="mr-2 h-4 w-4" />}
@@ -103,36 +109,48 @@ export default function VideoLibrary() {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 ml-64 flex flex-col min-h-screen">
+      <div className="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-10 bg-[#2C3930] border-b border-[#DCD7C9]/10 px-6 py-4">
+        <header className="sticky top-0 z-20 bg-[#2C3930] border-b border-[#DCD7C9]/10 px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="relative w-1/2">
-              <Input
-                type="search"
-                placeholder="Search videos..."
-                className="w-full pl-10 bg-[#3F4F44] border-none text-[#DCD7C9] placeholder:text-[#DCD7C9]/60"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#DCD7C9]/60" />
+            <div className="flex items-center">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden mr-2 text-[#DCD7C9]"
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+              <div className="relative">
+                <Input
+                  type="search"
+                  placeholder="Search videos..."
+                  className="w-full md:w-64 pl-10 bg-[#3F4F44] border-none text-[#DCD7C9] placeholder:text-[#DCD7C9]/60"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#DCD7C9]/60" />
+              </div>
             </div>
             <div className="flex items-center gap-4">
-              <Button className="bg-[#A27B5C] hover:bg-[#A27B5C]/90">Upload Video</Button>
+              <Button className="bg-[#A27B5C] hover:bg-[#A27B5C]/90 text-[#DCD7C9] hidden sm:inline-flex">
+                Upload Video
+              </Button>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-[#A27B5C]" />
-                <span className="text-[#DCD7C9]">John Doe</span>
+                <span className="text-[#DCD7C9] hidden sm:inline-block">John Doe</span>
               </div>
             </div>
           </div>
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 md:p-6">
           <h2 className="text-2xl font-bold text-[#DCD7C9] mb-6">{getSectionTitle()}</h2>
 
           {currentSection === "categories" ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {categories.map((category) => (
                 <div
                   key={category.id}
@@ -166,7 +184,7 @@ export default function VideoLibrary() {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredAndSortedVideos.map((video) => (
                   <VideoCard key={video.id} video={video} />
                 ))}

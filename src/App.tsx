@@ -11,6 +11,7 @@ import AccessModal from "./components/access-modal"
 import MasterContentImg from './assets/master-content.jpg'
 import DigitalMarketImg from './assets/digital-market.jpg'
 import BusinesCoachImg from './assets/business-coach.jpg'
+import FloatingChat from "./components/floating-chat"
 import { Outlet } from "react-router-dom";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
 		  <Instructors />
 		  <Testimonials />
 		  <CTASection />
+		  <FloatingChat />
 		  <Footer />
 		  <AccessModal />
 		  
