@@ -110,6 +110,7 @@ export default function VideoLibrary() {
 
       {/* Main Content */}
       <div className="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen">
+
         {/* Header */}
         <header className="sticky top-0 z-20 bg-[#2C3930] border-b border-[#DCD7C9]/10 px-4 py-4">
           <div className="flex items-center justify-between">
@@ -145,7 +146,7 @@ export default function VideoLibrary() {
           </div>
         </header>
 
-        {/* Main Content */}
+        {/* Video */}
         <main className="flex-1 p-4 md:p-6">
           <h2 className="text-2xl font-bold text-[#DCD7C9] mb-6">{getSectionTitle()}</h2>
 

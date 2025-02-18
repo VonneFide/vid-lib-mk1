@@ -110,6 +110,6 @@ export const allVideos = [
   
   export const favoriteVideos = allVideos.sort(() => Math.random() - 0.5).slice(0, 15)
   
-  export const watchLaterVideos = allVideos.sort(() => Math.random() - 0.5).slice(0, 3)
+  export const watchLaterVideos = allVideos.sort(() => Math.random() - 0.5).slice(0, 4)
   
   
