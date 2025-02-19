@@ -15,7 +15,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-[#2C3930] p-8 shadow-xl max-w-md w-full animate-popup">
+      <div className="bg-[#2C3930] rounded-xl p-8 shadow-xl max-w-md w-full animate-popup">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-[#DCD7C9]">{isLogin ? "Log In" : "Create Account"}</h2>
           <button onClick={onClose} className="text-[#DCD7C9] hover:text-[#A27B5C]">

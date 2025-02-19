@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --primary: 44 79 68; /* #2C3930 */
-    --secondary: 63 79 68; /* #3F4F44 */
-    --accent: 162 123 92; /* #A27B5C */
-    --muted: 220 215 201; /* #DCD7C9 */
-  }
-}
-
 .nav-link {
   position: relative;
 }
