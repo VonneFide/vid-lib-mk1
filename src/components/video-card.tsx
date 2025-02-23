@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Play, Heart, Clock, Share2 } from "lucide-react"
 import { Button } from "./ui/button"
+import { Link } from "react-router-dom"
 
 interface Video {
   id: number
@@ -26,33 +27,37 @@ export default function VideoCard({ video }: VideoCardProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative aspect-video">
-        <img
-          src={video.thumbnail || "/placeholder.svg"}
-          alt={video.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-        />
-        <div
-          className={`absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity duration-300 ${
-            isHovered ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <Button
-            size="icon"
-            variant="ghost"
-            className="w-12 h-12 rounded-full bg-[#A27B5C]/80 hover:bg-[#A27B5C] text-[#DCD7C9]"
+      <Link to={`/video/play/${video.id}`}>
+        <div className="relative aspect-video">
+          <img
+            src={video.thumbnail || "/placeholder.svg"}
+            alt={video.title}
+            className="transition-transform flex-1 duration-300 group-hover:scale-110"
+          />
+          <div
+            className={`absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity duration-300 ${
+              isHovered ? "opacity-100" : "opacity-0"
+            }`}
           >
-            <Play className="w-6 h-6" />
-          </Button>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="w-12 h-12 rounded-full bg-[#A27B5C]/80 hover:bg-[#A27B5C] text-[#DCD7C9]"
+            >
+              <Play className="w-6 h-6" />
+            </Button>
+          </div>
+          <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 text-[#DCD7C9] text-sm rounded">
+            {video.duration}
+          </div>
         </div>
-        <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 text-[#DCD7C9] text-sm rounded">
-          {video.duration}
-        </div>
-      </div>
+      </Link>
       <div className="p-4">
-        <h3 className="text-lg font-semibold text-[#DCD7C9] mb-2 line-clamp-2 hover:text-[#A27B5C] transition-colors">
-          {video.title}
-        </h3>
+        <Link to={`/video/play/${video.id}`}>
+          <h3 className="text-lg font-semibold text-[#DCD7C9] mb-2 line-clamp-2 hover:text-[#A27B5C] transition-colors">
+            {video.title}
+          </h3>
+        </Link>
         <div className="flex items-center justify-between text-sm text-[#DCD7C9]/80">
           <span>{video.author}</span>
           <span>{video.views} views</span>
@@ -87,4 +92,3 @@ export default function VideoCard({ video }: VideoCardProps) {
     </div>
   )
 }
-

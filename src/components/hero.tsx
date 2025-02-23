@@ -92,7 +92,7 @@ export default function Hero() {
           {carouselItems[currentSlide].subtitle}
         </p>
 
-        <Link to="video/home">
+        <Link to="/home">
           <Button className="group relative bg-[#A27B5C] hover:bg-[#A27B5C]/90 text-[#DCD7C9] text-lg px-8 py-6 overflow-hidden transition-all duration-300 transform hover:scale-105">
             <span className="relative z-10 flex items-center gap-2">
               Get All Access

@@ -3,6 +3,7 @@ import {createBrowserRouter} from "react-router-dom";
 // Pages
 import App from '../../src/App';
 import VideoLibrary from "../pages/video-menu";
+import PlayVid from "../pages/[id]/player-page";
 
 
 const router = createBrowserRouter(
@@ -13,8 +14,13 @@ const router = createBrowserRouter(
         children: [],
       },
       {
-        path: "/video/home",
+        path: "/home",
         element: <VideoLibrary />,
+        children: [],
+      },
+      {
+        path: "/video/play/:id",
+        element: <PlayVid />,
         children: [],
       },
     ],
