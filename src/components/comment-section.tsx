@@ -1,17 +1,15 @@
-import type React from "react"
-
-import { useState } from "react"
-import { Button } from "./ui/button"
-import { Textarea } from "./ui/textarea"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import React, { useState, FormEvent } from "react";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface Comment {
-  id: number
-  author: string
-  content: string
-  timestamp: string
-  likes: number
-  replies: number
+  id: number;
+  author: string;
+  content: string;
+  timestamp: string;
+  likes: number;
+  replies: number;
 }
 
 const dummyComments: Comment[] = [
@@ -31,20 +29,19 @@ const dummyComments: Comment[] = [
     likes: 8,
     replies: 1,
   },
-  // Add more dummy comments as needed
-]
+];
 
 interface CommentSectionProps {
-  videoId: number
+  videoId: number;
 }
 
 export default function CommentSection({ videoId }: CommentSectionProps) {
-  const [comments, setComments] = useState<Comment[]>(dummyComments)
-  const [newComment, setNewComment] = useState("")
+  const [comments, setComments] = useState<Comment[]>(dummyComments);
+  const [newComment, setNewComment] = useState("");
 
-  const handleSubmitComment = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newComment.trim()) return
+  const handleSubmitComment = (e: FormEvent) => {
+    e.preventDefault();
+    if (!newComment.trim()) return;
 
     const comment: Comment = {
       id: Date.now(),
@@ -53,15 +50,20 @@ export default function CommentSection({ videoId }: CommentSectionProps) {
       timestamp: "Just now",
       likes: 0,
       replies: 0,
-    }
+    };
 
-    setComments([comment, ...comments])
-    setNewComment("")
-  }
+    setComments([comment, ...comments]);
+    setNewComment("");
+  };
 
   return (
     <div className="mt-8">
-      <h3 className="text-xl font-semibold mb-4">Comments</h3>
+      <h3 className="text-xl font-semibold mb-4">
+        Comments{" "}
+        {videoId && (
+          <span className="text-sm text-[#DCD7C9]/60">(Video ID: {videoId})</span>
+        )}
+      </h3>
       <form onSubmit={handleSubmitComment} className="mb-6">
         <Textarea
           value={newComment}
@@ -77,20 +79,32 @@ export default function CommentSection({ videoId }: CommentSectionProps) {
         {comments.map((comment) => (
           <div key={comment.id} className="flex gap-4">
             <Avatar>
-              <AvatarImage src={`https://api.dicebear.com/6.x/initials/svg?seed=${comment.author}`} />
+              <AvatarImage
+                src={`https://api.dicebear.com/6.x/initials/svg?seed=${comment.author}`}
+              />
               <AvatarFallback>{comment.author[0]}</AvatarFallback>
             </Avatar>
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="font-semibold">{comment.author}</span>
-                <span className="text-sm text-[#DCD7C9]/60">{comment.timestamp}</span>
+                <span className="text-sm text-[#DCD7C9]/60">
+                  {comment.timestamp}
+                </span>
               </div>
               <p className="mb-2">{comment.content}</p>
               <div className="flex items-center gap-4 text-sm text-[#DCD7C9]/60">
-                <Button variant="ghost" size="sm" className="hover:bg-[#A27B5C]/20">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hover:bg-[#A27B5C]/20"
+                >
                   👍 {comment.likes}
                 </Button>
-                <Button variant="ghost" size="sm" className="hover:bg-[#A27B5C]/20">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hover:bg-[#A27B5C]/20"
+                >
                   💬 {comment.replies}
                 </Button>
               </div>
@@ -99,6 +113,5 @@ export default function CommentSection({ videoId }: CommentSectionProps) {
         ))}
       </div>
     </div>
-  )
+  );
 }
-

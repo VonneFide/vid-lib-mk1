@@ -1,27 +1,39 @@
-import { useState, useEffect } from "react"
-import { ThumbsUp, ThumbsDown, Share2, Flag, MoreHorizontal, Mic } from "lucide-react"
-import { Button } from "../../components/ui/button"
-import { Input } from "../../components/ui/input"
-import { allVideos } from "../../lib/data"
-import VideoCard from "../../components/video-card"
-import VideoPlayer from "../../components/video-player"
-import CommentSection from "../../components/comment-section"
-import { Link, useParams } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { ThumbsUp, ThumbsDown, Share2, Flag, MoreHorizontal, Mic } from "lucide-react";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { allVideos } from "../../lib/data";
+import VideoCard from "../../components/video-card";
+import VideoPlayer from "../../components/video-player";
+import CommentSection from "../../components/comment-section";
+import { Link, useParams } from "react-router-dom";
+
+// ✅ Video interface to replace `any`
+interface Video {
+  id: number;
+  title: string;
+  author: string;
+  views: number;
+  date: string;
+  description?: string;
+  url: string;
+  thumbnail: string;
+}
 
 export default function VideoPlayerPage() {
-  const { id } = useParams()
-  const [video, setVideo] = useState<any>(null)
-  const [relatedVideos, setRelatedVideos] = useState<any[]>([])
-  const [suggestedVideos, setSuggestedVideos] = useState<any[]>([])
+  const { id } = useParams<{ id: string }>();
+  const [video, setVideo] = useState<Video | null>(null);
+  const [relatedVideos, setRelatedVideos] = useState<Video[]>([]);
+  const [suggestedVideos, setSuggestedVideos] = useState<Video[]>([]);
 
   useEffect(() => {
-    const currentVideo = allVideos.find((v) => v.id.toString() === id)
-    setVideo(currentVideo)
-    setRelatedVideos(allVideos.filter((v) => v.id.toString() !== id).slice(0, 3))
-    setSuggestedVideos(allVideos.filter((v) => v.id.toString() !== id).slice(3, 8))
-  }, [id])
+    const currentVideo = allVideos.find((v) => v.id.toString() === id) as Video;
+    setVideo(currentVideo);
+    setRelatedVideos(allVideos.filter((v) => v.id.toString() !== id).slice(0, 3) as Video[]);
+    setSuggestedVideos(allVideos.filter((v) => v.id.toString() !== id).slice(3, 8) as Video[]);
+  }, [id]);
 
-  if (!video) return <div>Loading...</div>
+  if (!video) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen bg-[#2C3930] text-[#DCD7C9]">
@@ -116,6 +128,5 @@ export default function VideoPlayerPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

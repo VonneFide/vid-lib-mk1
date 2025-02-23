@@ -1,103 +1,105 @@
-import { useState, useRef, useEffect } from "react"
-import { Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react"
-import { Button } from "./ui/button"
-import { Slider } from "./ui/slider"
+import { useState, useRef, useEffect } from "react";
+import { Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
+import { Button } from "./ui/button";
+import { Slider } from "./ui/slider";
 
 interface VideoPlayerProps {
   video: {
-    id: number
-    title: string
+    id: number;
+    title: string;
+    url: string; // Added video URL for dynamic src
+    thumbnail: string; // Added thumbnail for dynamic poster
     // Add other video properties as needed
-  }
+  };
 }
 
 export default function VideoPlayer({ video }: VideoPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [volume, setVolume] = useState(1)
-  const [isMuted, setIsMuted] = useState(false)
-  const [isFullscreen, setIsFullscreen] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const playerRef = useRef<HTMLDivElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const videoElement = videoRef.current
-    if (!videoElement) return
+    const videoElement = videoRef.current;
+    if (!videoElement) return;
 
-    const updateTime = () => setCurrentTime(videoElement.currentTime)
-    const updateDuration = () => setDuration(videoElement.duration)
+    const updateTime = () => setCurrentTime(videoElement.currentTime);
+    const updateDuration = () => setDuration(videoElement.duration);
 
-    videoElement.addEventListener("timeupdate", updateTime)
-    videoElement.addEventListener("loadedmetadata", updateDuration)
+    videoElement.addEventListener("timeupdate", updateTime);
+    videoElement.addEventListener("loadedmetadata", updateDuration);
 
     return () => {
-      videoElement.removeEventListener("timeupdate", updateTime)
-      videoElement.removeEventListener("loadedmetadata", updateDuration)
-    }
-  }, [])
+      videoElement.removeEventListener("timeupdate", updateTime);
+      videoElement.removeEventListener("loadedmetadata", updateDuration);
+    };
+  }, []);
 
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
-        videoRef.current.pause()
+        videoRef.current.pause();
       } else {
-        videoRef.current.play()
+        videoRef.current.play();
       }
-      setIsPlaying(!isPlaying)
+      setIsPlaying(!isPlaying);
     }
-  }
+  };
 
   const handleVolumeChange = (newVolume: number[]) => {
-    const volumeValue = newVolume[0]
-    setVolume(volumeValue)
+    const volumeValue = newVolume[0];
+    setVolume(volumeValue);
     if (videoRef.current) {
-      videoRef.current.volume = volumeValue
+      videoRef.current.volume = volumeValue;
     }
-    setIsMuted(volumeValue === 0)
-  }
+    setIsMuted(volumeValue === 0);
+  };
 
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted
-      setIsMuted(!isMuted)
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
     }
-  }
+  };
 
   const handleSeek = (newTime: number[]) => {
     if (videoRef.current) {
-      videoRef.current.currentTime = newTime[0]
+      videoRef.current.currentTime = newTime[0];
     }
-  }
+  };
 
   const toggleFullscreen = () => {
-    if (!playerRef.current) return
+    if (!playerRef.current) return;
 
     if (!isFullscreen) {
       if (playerRef.current.requestFullscreen) {
-        playerRef.current.requestFullscreen()
+        playerRef.current.requestFullscreen();
       }
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen()
+        document.exitFullscreen();
       }
     }
-    setIsFullscreen(!isFullscreen)
-  }
+    setIsFullscreen(!isFullscreen);
+  };
 
   const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
-  }
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
 
   return (
     <div ref={playerRef} className="relative aspect-video bg-black">
       <video
         ref={videoRef}
         className="w-full h-full"
-        src="/placeholder-video.mp4" // Replace with actual video source
-        poster="/placeholder.svg?height=720&width=1280"
+        src={video.url} // Dynamic video URL
+        poster={video.thumbnail} // Dynamic poster thumbnail
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
         <Slider value={[currentTime]} max={duration} step={1} onValueChange={handleSeek} className="mb-4" />
@@ -131,6 +133,5 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
