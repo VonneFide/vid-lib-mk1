@@ -14,7 +14,7 @@ export default function AccessModal() {
     <>
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-[#2C3930] p-8 rounded-lg shadow-xl max-w-md w-full animate-popup">
+          <div className="bg-[#2C3930] p-8 rounded-xl shadow-xl max-w-md w-full animate-popup">
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-2 right-2 text-[#DCD7C9] hover:text-[#A27B5C]"
